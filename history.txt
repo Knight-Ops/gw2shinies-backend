@@ -1,0 +1,12 @@
+#V2
+INFO FOR DB;
+INFO FOR NS;
+INFO FOR KV;
+CREATE item:test SET name = 'test item';
+INFO FOR DB;
+SELECT * FROM item;
+SELECT count() FROM item GROUP ALL;
+SELECT id, gw2_id, id AS record_id FROM item LIMIT 5;
+SELECT count() FROM item WHERE gw2_id = NONE;
+SELECT * FROM item WHERE gw2_id = NONE;
+DELETE item:test;
