@@ -38,8 +38,19 @@ pub struct ItemParams {
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 pub struct Args {
-    #[arg(short, long, env = "SURREAL_DB_URI", default_value = "127.0.0.1:8000")]
+    #[arg(
+        short,
+        long,
+        env = "SURREAL_DB_URI",
+        default_value = "ws://127.0.0.1:8000"
+    )]
     pub surreal_uri: String,
+
+    #[arg(long, env = "SURREAL_USER", default_value = "root")]
+    pub surreal_user: String,
+
+    #[arg(long, env = "SURREAL_PASS", default_value = "root")]
+    pub surreal_pass: String,
 }
 
 // Database connection placeholder
@@ -48,11 +59,11 @@ pub struct Database {
 }
 
 impl Database {
-    pub async fn init(uri: &str) -> surrealdb::Result<Self> {
+    pub async fn init(uri: &str, user: &str, pass: &str) -> surrealdb::Result<Self> {
         let db = connect(uri).await?;
         db.signin(surrealdb::opt::auth::Root {
-            username: "root",
-            password: "Thisismysurrealpw",
+            username: user,
+            password: pass,
         })
         .await?;
         db.use_ns("gw2shinies").use_db("colony_brain").await?;

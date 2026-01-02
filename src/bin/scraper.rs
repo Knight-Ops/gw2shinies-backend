@@ -11,7 +11,7 @@ async fn main() {
 
     let args = Args::parse();
 
-    let database = Database::init(&args.surreal_uri)
+    let database = Database::init(&args.surreal_uri, &args.surreal_user, &args.surreal_pass)
         .await
         .expect("Failed to initialize database");
 
